@@ -2,8 +2,9 @@
 <strong>
 <p align="center">
 Real Time Chat Application <br>
+Michalis Tripolitsiotis <br>
 Laravel Framework
 </p>
 </strong>
-## About Laravel
+
 <p>This is a real time chat application where users can communicate between them. </p>
