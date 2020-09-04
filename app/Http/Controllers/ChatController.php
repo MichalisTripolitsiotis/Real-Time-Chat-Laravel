@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\User;
 use App\Conversation;
 use App\ConversationsReply;
@@ -21,25 +22,24 @@ class ChatController extends Controller
     }
     public function chat($id)
     {
-        $users=User::find($id);
+        $users = User::find($id);
         $user = auth()->user()->id;
-        //  $conversation = DB::select('SELECT DISTINCT sender.name, receiver.name, conversations.text FROM conversations LEFT JOIN users AS sender ON conversations.user_one =? LEFT JOIN users AS receiver ON conversations.user_two =? ORDER BY conversations.cid',[$user,$id],'DISTINCT');
         $conversation = DB::table('conversations')
             ->join('users', 'conversations.user_one', '=', 'users.id')
             ->where('user_one', $user)->where('user_two', $id)
-            //an thelei alagma to katw
             ->orwhere('user_two', $user)->where('user_one', $id)
-            ->select('conversations.text', 'conversations.user_one','conversations.time' ,'conversations.user_two', 'users.*')
+            ->select('conversations.text', 'conversations.user_one', 'conversations.time', 'conversations.user_two', 'users.*')
             ->orderby('conversations.cid', 'asc')
-            
+
             ->get();
 
-       
+
         //dd($conversation);
-        return view('/chat',compact('users','conversation'));
+        return view('/chat', compact('users', 'conversation'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $this->validate($request, [
             'message' => 'required'
         ]);
@@ -50,12 +50,13 @@ class ChatController extends Controller
         $conversation->time = $date;
         $conversation->text = $request->input('message');
         $conversation->save();
-     
+
         //$conversationr->c_fk=$conversation->cid;
         return redirect('/chat/' . $conversation->user_two)->with('success', 'message sent');
     }
 
-    public function show($cid){
+    public function show($cid)
+    {
         $conversation = Conversation::find($cid);
         //$comments = Comment::where('ad_id', $id)->with('users')->get();
         dd($conversation);

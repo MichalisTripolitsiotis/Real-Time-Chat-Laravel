@@ -1,11 +1,11 @@
 @extends('layouts.app')
-
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 @section('content')
       <div class="container">
                 <div class="col">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div class="media align-items-center">
-                            <img alt="Image" src="https://source.unsplash.com/Nm70URdtf3c/336x336" style="width:20%; height:20%;" class="avatar avatar-sm" />
+                    <!--ann thes edw vale to img-->
                             <div class="media-body">
                                 <h6 class="mb-0 d-block">{{$users->name}}</h6>
                             </div>
@@ -22,7 +22,7 @@
                     
                         
                    
-                        <div class="card-body overflow-auto">
+                        <div class="card-body overflow-auto" id="msg">
                             @foreach($conversation as $row)
                             @if ($row->user_one==$users->id) <br>
                         <div class="row justify-content-start">
@@ -61,21 +61,31 @@
                         </div>
                     </div>
                    
-                    
+                  
                     
                     <div class="card-footer">
-                         
-                        <form method="post" action="{{route("store")}}" class="d-flex align-items-center">
+                        <form id="form" method="post" action="{{route("store")}}" class="d-flex align-items-center">
                              {{ csrf_field() }}
                         <input type="hidden" value="{{$users->id}}" name="usert"> 
-
                                 <div class="input-group input-group-lg">
                                 <input autocomplete="off" class="form-control" type="text" placeholder="Type a message" name="message" />
                             </div>
-                            <button class="btn btn-info">
+                            <button id="sub" name="sub" class="btn btn-info">
                             <span class="h5">Submit</span>
                             </button>
                         </form>
+                           
+                          
+                    <script type="text/javascript">
+                              console.log("start");
+                
+    setInterval("my_function();",1000); 
+    function my_function(){
+      $('#msg').load(location.href + ' #msg');
+    }
+
+                    
+                    </script>
                     </div>
                     </div>
                 </div>
@@ -83,8 +93,8 @@
             </div>
             <!--end of row-->
         </div>
-    </section>
-    
-</div>    
+      </section>
+       </div>    
       </div>
+
 @endsection
